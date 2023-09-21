@@ -1,6 +1,6 @@
 import './App.css';
 import { API, Amplify, Auth } from 'aws-amplify';
-import { Authenticator, Heading, Text, useTheme } from '@aws-amplify/ui-react';
+import { Authenticator, Heading, Text, useTheme, useAuthenticator,View,Button} from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import {BrowserRouter , Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
@@ -34,6 +34,43 @@ const formFields = {
 };
 
 const components = {
+  Header() {
+    const { tokens } = useTheme();
+
+    return (
+      <View textAlign="center" padding={tokens.space.large}></View>
+    );
+  },
+  SignIn: {
+    Header() {
+      const { tokens } = useTheme();
+
+      return (
+        <Heading
+          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+          level={3}
+        >
+          Sign in to your account
+        </Heading>
+      );
+    },
+    Footer() {
+      const { toResetPassword } = useAuthenticator();
+
+      return (
+        <View textAlign="center">
+          <Button
+            fontWeight="normal"
+            onClick={toResetPassword}
+            size="small"
+            variation="link"
+          >
+            Reset Password
+          </Button>
+        </View>
+      );
+    },
+  },
   VerifyUser: {
     Header() {
       const { tokens } = useTheme();
@@ -66,7 +103,7 @@ const components = {
     Footer() {
       return <Text>Footer Information</Text>;
     },
-  },
+  }
 };
 function App() {
   return (
